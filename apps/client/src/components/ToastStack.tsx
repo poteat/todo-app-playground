@@ -1,5 +1,5 @@
 import { useAtomValue, useSetAtom } from "jotai/react";
-import { dismissToastActionAtom, toastsAtom } from "@@/model/toastAtoms";
+import { dismissToastActionAtom, toastsAtom } from "@/model/toastAtoms";
 
 export const ToastStack = () => {
   const toasts = useAtomValue(toastsAtom);
@@ -20,4 +20,3 @@ export const ToastStack = () => {
     </div>
   );
 };
-

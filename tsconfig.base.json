@@ -9,10 +9,6 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "types": ["node"],
-    "baseUrl": ".",
-    "paths": {
-      "@/shared": ["packages/shared/src/index.ts"],
-      "@/shared/*": ["packages/shared/src/*"]
-    }
+    "baseUrl": "."
   }
 }

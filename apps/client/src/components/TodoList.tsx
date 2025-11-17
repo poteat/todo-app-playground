@@ -1,4 +1,4 @@
-import { Todo } from "@/shared";
+import { Todo } from "@root/shared";
 
 type TodoListProps = {
   todos: Todo[];
