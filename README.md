@@ -78,8 +78,7 @@ npm --workspace apps/server run prisma:migrate
 
 ## Path Aliases
 
-- `@/shared` – resolves to the shared workspace (`packages/shared/src`)
-- `@@/` – resolves to the `src` directory of the workspace you are in (apps or
+- `@/` – resolves to the `src` directory of the workspace you are in (apps or
   packages)
 
 Server scripts load aliases via `tsconfig-paths` both in development and when

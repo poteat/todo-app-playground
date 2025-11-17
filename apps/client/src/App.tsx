@@ -1,8 +1,8 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useAtomValue, useSetAtom } from "jotai/react";
 
-import { TodoList } from "@@/components/TodoList";
-import { ToastStack } from "@@/components/ToastStack";
+import { TodoList } from "@/components/TodoList";
+import { ToastStack } from "@/components/ToastStack";
 import {
   todosAtom,
   isLoadingAtom,
@@ -10,7 +10,7 @@ import {
   createTodoActionAtom,
   toggleTodoActionAtom,
   removeTodoActionAtom,
-} from "@@/model/todosAtoms";
+} from "@/model/todosAtoms";
 
 function App() {
   const [title, setTitle] = useState("");

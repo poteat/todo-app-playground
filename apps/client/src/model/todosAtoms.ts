@@ -1,7 +1,7 @@
 import { atom } from "jotai/vanilla";
-import { Todo } from "@/shared";
-import { api } from "@@/services/api";
-import { pushToastActionAtom } from "@@/model/toastAtoms";
+import { Todo } from "@root/shared";
+import { api } from "@/services/api";
+import { pushToastActionAtom } from "@/model/toastAtoms";
 
 export const todosAtom = atom<Todo[]>([]);
 export const isLoadingAtom = atom<boolean>(true);

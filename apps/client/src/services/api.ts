@@ -30,7 +30,7 @@ async function request<T>(input: RequestInfo, init?: RequestInit): Promise<T> {
   return response.json();
 }
 
-import { Todo } from "@/shared";
+import { Todo } from "@root/shared";
 
 export const api = {
   async fetchTodos(): Promise<Todo[]> {

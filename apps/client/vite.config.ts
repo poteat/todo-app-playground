@@ -1,14 +1,14 @@
-import { defineConfig } from "vite";
+import { defineConfig, type ViteDevServer } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
 
 const envHotReload = () => ({
   name: "env-hot-reload",
-  configureServer(server) {
+  configureServer(server: ViteDevServer) {
     const file = path.resolve(__dirname, "../../.env");
     server.watcher.add(file);
     let timer: NodeJS.Timeout | undefined;
-    server.watcher.on("change", (changed) => {
+    server.watcher.on("change", (changed: string) => {
       if (changed === file) {
         if (timer) clearTimeout(timer);
         timer = setTimeout(() => server.restart(), 200);
@@ -21,8 +21,8 @@ export default defineConfig({
   plugins: [react(), envHotReload()],
   resolve: {
     alias: {
-      "@/shared": path.resolve(__dirname, "../../packages/shared/src"),
-      "@@": path.resolve(__dirname, "./src"),
+      "@root/shared": path.resolve(__dirname, "../../packages/shared/src"),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   server: {
