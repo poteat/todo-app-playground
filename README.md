@@ -23,18 +23,34 @@ TypeScript utilities, and a Dockerized Postgres instance for local development.
    # start Docker Desktop / docker daemon
    ```
 
-2. Copy `.env.example` to `.env` and adjust as needed (database URL, ports,
-   etc.).
+2. Copy `.env.example` to `.env` at the repo root and adjust as needed
 
-3. Install dependencies and start everything:
+3. Copy `.env.example` to `.env` at `apps/server/prisma` and adjust as needed
 
-```bash
-npm install
-npm run dev       # boots Postgres then runs server + client concurrently
-```
+4. Install dependencies:
 
-> `npm run dev` always starts the local Postgres container via Docker Compose.
-> Ensure Docker Desktop (or your Docker daemon) is running first.
+   ```bash
+   npm install
+   ```
+
+5. Start the Postgres container:
+
+   ```bash
+   npm run db:start
+   ```
+
+6. Run database migrations and generate the Prisma client types:
+
+   ```bash
+   npm run db:migrate   # prisma migrate dev
+   npm run db:client    # prisma generate (client in node_modules)
+   ```
+
+7. Start the API server and client:
+
+   ```bash
+   npm run dev          # runs server + client concurrently
+   ```
 
 > **Node version:** The repo enforces Node `24.11.0` via `.nvmrc`, `.npmrc`
 > (`engine-strict=true`), and `package.json` engines. Run `nvm use` (or your
@@ -45,9 +61,8 @@ server expects `DATABASE_URL`, `PORT`, and `CLIENT_ORIGIN`. Vite will read
 variables prefixed with `VITE_`. The client uses `VITE_API_BASE_URL` to locate
 the API; the example configuration points at `http://localhost:4000/api`.
 
-Prisma CLI reads env vars from a `.env` file next to `schema.prisma`. To support
-`prisma migrate dev` and `prisma generate`, the repo includes
-`apps/server/prisma/.env` with only `DATABASE_URL`. The app itself uses the root
+Prisma CLI reads env vars from a `.env` file next to `schema.prisma` (the
+`apps/server/prisma/.env` you created above). The app itself uses the root
 `.env` when running.
 
 > Postgres persists data under `docker/db-data/pgdata` (the container uses
@@ -60,11 +75,18 @@ Prisma CLI reads env vars from a `.env` file next to `schema.prisma`. To support
 From the repo root:
 
 ```bash
-npm run dev         # db + server + client
-npm run lint        # TypeScript typecheck across all workspaces
-npm run typecheck   # alias for lint
-npm run build       # build all workspaces
-npm run clean       # remove dist, tsbuildinfo, all node_modules
+npm run dev           # run server + client concurrently
+
+npm run db:start      # start Postgres (Docker)
+npm run db:stop       # stop Postgres container
+npm run db:clear      # stop Postgres and remove local data volume
+npm run db:migrate    # run Prisma migrations against the DB
+npm run db:client     # regenerate Prisma client/types into node_modules
+npm run db:studio     # open Prisma Studio UI
+
+npm run typecheck     # TypeScript project references build (no emit)
+npm run lint          # alias for typecheck
+npm run build         # build all workspaces
 ```
 
 To work with individual workspaces:
@@ -72,8 +94,6 @@ To work with individual workspaces:
 ```bash
 npm --workspace apps/server run dev
 npm --workspace apps/client run dev
-
-npm --workspace apps/server run prisma:migrate
 ```
 
 ## Path Aliases
@@ -86,9 +106,5 @@ the compiled code runs, so feel free to use them in API code as well.
 
 ## Updating Dependencies
 
-- `npm run upgrade` – sequentially runs `npm-check-updates` for the root
-  workspace plus each app/package, then reinstalls to refresh
-  `package-lock.json`.
-- `npm run upgrade:server` (or `upgrade:client`, `upgrade:shared`,
-  `upgrade:root`) – update a single workspace’s `package.json`; run
-  `npm install` afterward to sync the lockfile.
+- `npm run upgrade` – runs `npm-check-updates` across all workspaces and then
+  reinstalls dependencies to refresh `package-lock.json`.
