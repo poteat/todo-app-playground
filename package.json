@@ -1,5 +1,5 @@
 {
-  "name": "todo-app-playground",
+  "name": "root",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -8,28 +8,19 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm-run-all dev:apps",
-    "dev:apps": "npm-run-all -p --continue-on-error dev:server dev:client",
+    "dev": "npm-run-all -p --continue-on-error dev:server dev:client",
     "dev:server": "npm --workspace apps/server run dev",
     "dev:client": "npm --workspace apps/client run dev",
-    "clean": "npm-run-all clean:dist clean:tsbuildinfo clean:node_modules",
-    "clean:dist": "rimraf dist apps/*/dist packages/*/dist",
-    "clean:tsbuildinfo": "rimraf **/*.tsbuildinfo",
-    "clean:node_modules": "rimraf node_modules apps/*/node_modules packages/*/node_modules",
-    "typecheck": "tsc -b",
-    "lint": "npm run typecheck",
-    "build": "npm run build --workspaces --if-present",
     "db:start": "docker compose up postgres -d",
     "db:stop": "docker compose stop postgres",
     "db:clear": "docker compose down postgres && rimraf docker/db-data",
-    "db:generate": "npm --workspace apps/server exec prisma generate",
     "db:migrate": "npm --workspace apps/server exec prisma migrate dev",
+    "db:client": "npm --workspace apps/server exec prisma generate",
     "db:studio": "npm --workspace apps/server exec prisma studio",
-    "upgrade": "npm-run-all upgrade:* && npm install",
-    "upgrade:root": "ncu -u",
-    "upgrade:server": "ncu -u --packageFile apps/server/package.json",
-    "upgrade:client": "ncu -u --packageFile apps/client/package.json",
-    "upgrade:shared": "ncu -u --packageFile packages/shared/package.json"
+    "typecheck": "tsc -b",
+    "lint": "npm run typecheck",
+    "build": "npm run build --workspaces --if-present",
+    "upgrade": "ncu -u --workspaces && npm install"
   },
   "devDependencies": {
     "npm-check-updates": "^19.1.2",
