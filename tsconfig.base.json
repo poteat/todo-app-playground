@@ -9,6 +9,9 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "types": ["node"],
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@root/shared": ["packages/shared/src"]
+    }
   }
 }
