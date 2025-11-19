@@ -1,5 +1,6 @@
 import { defineConfig, type ViteDevServer } from "vite";
 import react from "@vitejs/plugin-react";
+import tsconfigPaths from "vite-tsconfig-paths";
 import path from "node:path";
 
 const envHotReload = () => ({
@@ -18,13 +19,11 @@ const envHotReload = () => ({
 });
 
 export default defineConfig({
-  plugins: [react(), envHotReload()],
-  resolve: {
-    alias: {
-      "@root/shared": path.resolve(__dirname, "../../packages/shared/src"),
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
+  plugins: [
+    react(),
+    envHotReload(),
+    tsconfigPaths({ projects: ["./tsconfig.app.json"] }),
+  ],
   server: {
     port: 5173,
     proxy: {
